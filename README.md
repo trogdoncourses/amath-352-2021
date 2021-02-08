@@ -26,7 +26,7 @@ The repo for AMATH 352 Winter 2021 at UW
 1. [Lecture14](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture14.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=cedeb277-d51b-4989-a7b7-acc201395b2f)
 1. [Lecture15](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture15.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d432840c-07ce-4b7c-be88-acc9015b2164)
 1. [Lecture16](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture16.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4a3844ed-a13e-413a-aa17-acc9015f4e68)
-1. [Lecture17](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture17.html) | [video]
+1. [Lecture17](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture17.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c84335a5-ab2c-48f2-9032-acc9016ca8bf)
 
 
 
