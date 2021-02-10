@@ -14278,9 +14278,11 @@ OUTPUT: An approximation y of x after T iterations
 
 STEP 1: Set y = zeros(n,1)
 STEP 2: For i = 1,2,...,T do STEP 3
-   STEP 3: Update y according to Jacobi or Gauss-Seidel
-STEP 4: OUTPUT(y)</code></pre>
-<p>For Jacobi's algorithm what is the smallest value of <code>T</code> such that the largest entry of the vector <code>A*y - b</code> in absolute value is less than $\epsilon =$ <code>1e-2</code>?  Call this <code>Tj_2</code> and let <code>Ej_2</code> be the largest entry in absolute value of this vector.  Repeat this for the Gauss-Seidel algorithm giving <code>Tgs_2</code> and let <code>Egs_2</code>.</p>
+   STEP 3: Let z be the next iterate according to Jacobi or Gauss-Seidel
+   STEP 4: Measure max(abs(z-y))
+   STEP 5: Set y =z
+STEP 6: OUTPUT(y)</code></pre>
+<p>For Jacobi's algorithm what is the smallest value of <code>T</code> such that the largest entry of the vector <code>y - z</code> in absolute value is less than $\epsilon =$ <code>1e-2</code>?  Call this <code>Tj_2</code> and let <code>Ej_2</code> be the largest entry in absolute value of this vector.  Repeat this for the Gauss-Seidel algorithm giving <code>Tgs_2</code> and let <code>Egs_2</code>.</p>
 <p>Repeat the entire experiment for $\epsilon =$ <code>1e-4</code>, $\epsilon =$ <code>1e-6</code>, $\epsilon =$ <code>1e-8</code>.  This will give <code>Tj_4</code>,<code>Ej_4</code>,<code>Tj_6</code>, <code>Ej_6</code>,<code>Tj_8</code>, <code>Ej_8</code>, <code>Tgs_4</code>,<code>Egs_4</code>,<code>Tgs_6</code>,<code>Egs_6</code> and <code>Tgs_8</code>, <code>Egs_8</code>.</p>
 <p>Save the matrix</p>
 
