@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lecture17</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Lecture19</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14259,14 +14259,1134 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Lecture-17">Lecture 17<a class="anchor-link" href="#Lecture-17">&#182;</a></h1><h2 id="Olver-&amp;-Shakiban-3.1">Olver &amp; Shakiban 3.1<a class="anchor-link" href="#Olver-&amp;-Shakiban-3.1">&#182;</a></h2>
+<h1 id="Lecture-19">Lecture 19<a class="anchor-link" href="#Lecture-19">&#182;</a></h1><h3 id="Olver-and-Shakiban-4.3-----using-a-different-method">Olver and Shakiban 4.3 --- using a different method<a class="anchor-link" href="#Olver-and-Shakiban-4.3-----using-a-different-method">&#182;</a></h3><p>Lecture notes are available <a href="https://drive.google.com/file/d/12DLtoVZjAiF5vnhyuX_Y44W21_QmBCcY/view?usp=sharing">here</a>.</p>
+
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Lecture notes are available <a href="https://drive.google.com/file/d/1xxRUx89kaNvr55epCbVFi_IjowJqv9Ol/view?usp=sharing">here</a>.</p>
+<h2 id="Using-Householder-reflections-to-put-A-in-upper-triangular-form">Using Householder reflections to put A in upper-triangular form<a class="anchor-link" href="#Using-Householder-reflections-to-put-A-in-upper-triangular-form">&#182;</a></h2>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">A</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">R</span> <span class="p">=</span> <span class="n">A</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+    0.5377   -1.3077   -1.3499
+    1.8339   -0.4336    3.0349
+   -2.2588    0.3426    0.7254
+    0.8622    3.5784   -0.0631
+    0.3188    2.7694    0.7147
+
+</pre>
+</div>
+</div>
 
 </div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+$$ H = I - 2 \frac{ \vec w \vec w^T }{\|\vec w\|_2^2}.$$$$ H = I - 2 \vec v \vec v^T, \quad \vec v = \frac{\vec w}{\|\vec w\|_2}.$$
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">))</span> <span class="c">% using (1:end,1:end) is unnecessary</span>
+<span class="c">% but it helps to see the pattern</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+   -3.0983   -0.5473   -1.0892
+    0.0000   -0.0501    3.1664
+   -0.0000   -0.1297    0.5635
+    0.0000    3.7587   -0.0012
+    0.0000    2.8361    0.7376
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+   -3.0983   -0.5473   -1.0892
+    0.0000    4.7107    0.3939
+   -0.0000         0    0.4879
+    0.0000   -0.0000    2.1877
+    0.0000   -0.0000    2.3892
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+   -3.0983   -0.5473   -1.0892
+    0.0000    4.7107    0.3939
+   -0.0000         0   -3.2760
+    0.0000   -0.0000         0
+    0.0000   -0.0000         0
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>At the end of this, $A$ is in upper-triangular form.  This is the $R$ in the $A = QR$ factorization.  That is, we've found a way to apply $Q^T = Q^{-1}$ to $A$ to get $Q^TA = R$.  To understand how to construct $Q$ we have think about what we are doing at each stage.</p>
+<p>Start with $Q_0 = I$ and $R_0 = A$.  Then</p>
+$$A = Q_0 R_0 = Q_0 H_1^T H_1 R_0$$<p>where $H_1$ is the Householder reflection constructed based on the first column of $R_0$.  And, we have used that $H_1$ is an orthogonal matrix, $H_1^T H_1 = I$.  But let's look at $H_1$ closer:</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">R</span> <span class="p">=</span> <span class="n">A</span><span class="p">;</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">H1</span> <span class="p">=</span> <span class="nb">eye</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">w</span><span class="o">&#39;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+H1 =
+
+   -0.1735   -0.5919    0.7291   -0.2783   -0.1029
+   -0.5919    0.7015    0.3677   -0.1404   -0.0519
+    0.7291    0.3677    0.5471    0.1729    0.0639
+   -0.2783   -0.1404    0.1729    0.9340   -0.0244
+   -0.1029   -0.0519    0.0639   -0.0244    0.9910
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">H1</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">H1</span> <span class="c">% H1 transpose - H1</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ans =
+
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We see that $H_1 = H_1^T$ is symmetric, so that $H_1 = H_1^{-1}$.  This is why these are called reflections.  If you reflect, and reflect again, you should be back where you started.</p>
+<p>So,</p>
+$$A = Q_0 R_0 = Q_0 H_1^T H_1 R_0 = (Q_0 H_1) (H_1 R_0)$$<p>.</p>
+<p>As before, the following computes $H_1 R_0$ to get $R_1$:</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">R</span> <span class="p">=</span> <span class="n">A</span><span class="p">;</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">))</span> <span class="c">% Applies H1 to R</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+   -3.0983   -0.5473   -1.0892
+    0.0000   -0.0501    3.1664
+   -0.0000   -0.1297    0.5635
+    0.0000    3.7587   -0.0012
+    0.0000    2.8361    0.7376
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To compute $Q_0 H_1$, we note that $Q_0$ is the identity matrix:</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">Q</span> <span class="p">=</span> <span class="nb">eye</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">Q</span> <span class="p">=</span> <span class="n">Q</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Q</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">&#39;</span> <span class="c">% Q appears on the left of w, w&#39;</span>
+<span class="c">% because Q0 appears to the left of H1</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+Q =
+
+   -0.1735   -0.5919    0.7291   -0.2783   -0.1029
+   -0.5919    0.7015    0.3677   -0.1404   -0.0519
+    0.7291    0.3677    0.5471    0.1729    0.0639
+   -0.2783   -0.1404    0.1729    0.9340   -0.0244
+   -0.1029   -0.0519    0.0639   -0.0244    0.9910
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>And repeat:</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">))</span>
+<span class="c">% You can do R(2:end,:) = R(2:end,:) - 2*w*(w&#39;*R(2:end,:))</span>
+<span class="c">% but we know that most of the first column of R(2:end,:) is zero</span>
+<span class="c">% so it makes sense to exclude it from the computation</span>
+<span class="c">% But we cannot do that with the rows of Q:</span>
+<span class="n">Q</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">Q</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Q</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">&#39;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+   -3.0983   -0.5473   -1.0892
+    0.0000    4.7107    0.3939
+   -0.0000         0    0.4879
+    0.0000   -0.0000    2.1877
+    0.0000   -0.0000    2.3892
+
+
+Q =
+
+   -0.1735   -0.2978    0.7371   -0.5105   -0.2781
+   -0.5919   -0.1608    0.3442    0.5404    0.4618
+    0.7291    0.1574    0.5413    0.3389    0.1892
+   -0.2783    0.7273    0.1965    0.2490   -0.5413
+   -0.1029    0.5760    0.0810   -0.5201    0.6170
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">))</span>
+<span class="n">Q</span><span class="p">(:,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">Q</span><span class="p">(:,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Q</span><span class="p">(:,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">&#39;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+   -3.0983   -0.5473   -1.0892
+    0.0000    4.7107    0.3939
+   -0.0000         0   -3.2760
+    0.0000   -0.0000         0
+    0.0000   -0.0000         0
+
+
+Q =
+
+   -0.1735   -0.2978    0.4339   -0.6867   -0.4705
+   -0.5919   -0.1608   -0.7489   -0.0949   -0.2321
+    0.7291    0.1574   -0.4449   -0.2343   -0.4369
+   -0.2783    0.7273    0.1992    0.2506   -0.5396
+   -0.1029    0.5760   -0.1147   -0.6339    0.4927
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Verify the properties:</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">A</span> <span class="o">-</span> <span class="n">Q</span><span class="o">*</span><span class="n">R</span> <span class="c">% good factorization</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ans =
+
+   1.0e-14 *
+
+    0.1443   -0.1110    0.0444
+    0.0888    0.0777    0.0444
+   -0.0888   -0.0167    0.0888
+    0.0111   -0.1776    0.0444
+   -0.0111   -0.1332    0.0888
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">Q</span><span class="o">&#39;*</span><span class="n">Q</span> <span class="c">% Q is indeed orthogonal</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ans =
+
+    1.0000   -0.0000    0.0000   -0.0000   -0.0000
+   -0.0000    1.0000    0.0000   -0.0000         0
+    0.0000    0.0000    1.0000   -0.0000   -0.0000
+   -0.0000   -0.0000   -0.0000    1.0000   -0.0000
+   -0.0000         0   -0.0000   -0.0000    1.0000
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">Q</span><span class="o">*</span><span class="n">Q</span><span class="o">&#39;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ans =
+
+    1.0000   -0.0000    0.0000   -0.0000    0.0000
+   -0.0000    1.0000   -0.0000   -0.0000   -0.0000
+    0.0000   -0.0000    1.0000   -0.0000   -0.0000
+   -0.0000   -0.0000   -0.0000    1.0000    0.0000
+    0.0000   -0.0000   -0.0000    0.0000    1.0000
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Solving-a-least-squares-problem">Solving a least-squares problem<a class="anchor-link" href="#Solving-a-least-squares-problem">&#182;</a></h2>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Find $\vec x$ that minimized</p>
+$$ \mathcal L(\vec y) = \| A \vec y - \vec b\|_2^2. $$
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">A</span> <span class="p">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>  <span class="n">b</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="By-normal-equations:">By normal equations:<a class="anchor-link" href="#By-normal-equations:">&#182;</a></h3>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">An</span> <span class="p">=</span> <span class="n">A</span><span class="o">&#39;*</span><span class="n">A</span><span class="p">;</span>
+<span class="n">bn</span> <span class="p">=</span> <span class="n">A</span><span class="o">&#39;*</span><span class="n">b</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+bn =
+
+    3.9868
+    2.3004
+    0.9647
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x0</span> <span class="p">=</span> <span class="n">An</span><span class="o">\</span><span class="n">bn</span>  <span class="c">% Solves (A&#39;*A)x = A&#39;* b, the normal equations</span>
+<span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">x0</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>  <span class="c">% residual</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+x0 =
+
+    1.1033
+   -0.3527
+    1.0275
+
+
+ans =
+
+    0.6490
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">R</span> <span class="p">=</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">];</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="k">end</span><span class="p">))</span> <span class="c">% R1</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+    2.5041    1.6256   -0.5815    1.5921
+   -0.0000   -1.1638    0.6528    1.0271
+    0.0000    0.1926    0.5853    0.6744
+    0.0000    1.1340    1.1345    0.6920
+    0.0000   -0.0102    0.0582    0.6902
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">))</span> <span class="c">% R1</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+    2.5041    1.6256   -0.5815    1.5921
+   -0.0000    1.6363    0.3904   -0.1759
+    0.0000         0    0.6033    0.7571
+    0.0000         0    1.2407    1.1792
+    0.0000         0    0.0572    0.6858
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+    2.5041    1.6256   -0.5815    1.5921
+   -0.0000    1.6363    0.3904   -0.1759
+    0.0000         0   -1.3808   -1.4188
+    0.0000         0   -0.0000   -0.1814
+    0.0000         0         0    0.6231
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sign</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">w</span> <span class="p">=</span> <span class="n">w</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+<span class="n">R</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="p">=</span> <span class="n">R</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">&#39;*</span><span class="n">R</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+R =
+
+    2.5041    1.6256   -0.5815    1.5921
+   -0.0000    1.6363    0.3904   -0.1759
+    0.0000         0   -1.3808   -1.4188
+    0.0000         0   -0.0000    0.6490
+    0.0000         0         0         0
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span> <span class="p">=</span> <span class="n">Backsub</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,:))</span>
+<span class="n">x0</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+x =
+
+    1.1033
+   -0.3527
+    1.0275
+
+
+x0 =
+
+    1.1033
+   -0.3527
+    1.0275
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="n">x</span><span class="o">-</span><span class="n">x0</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ans =
+
+   1.0e-15 *
+
+   -0.2220
+    0.7772
+   -0.4441
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">x0</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ans =
+
+    0.6490
+
+
+ans =
+
+    0.6490
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-matlab"><pre><span></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
 </div>
 </body>
 
