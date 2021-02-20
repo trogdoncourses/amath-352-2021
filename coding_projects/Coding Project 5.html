@@ -14317,7 +14317,7 @@ OUTPUT: An approximation y to the solution of the normal equations
 
 STEP 1: Set x to be a vector of all zeros
 STEP 2: For i = 1,2,3,4,... do steps 3-6
-    STEP 2: Set y = A'*(b - A*y); v = A*y
+    STEP 2: Set y = A'*(b - A*x); v = A*y
     STEP 4: Set step = (y'*y)/(v'*v)*y
     STEP 5: Set x = x + step
     STEP 6: If max(abs(step)) &lt; epsilon do STEP 8
