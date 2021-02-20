@@ -30,10 +30,6 @@ The repo for AMATH 352 Winter 2021 at UW
 1. [Lecture17](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture17.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c84335a5-ab2c-48f2-9032-acc9016ca8bf)
 1. [Lecture18](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture18.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=fcd2073f-7719-499c-9fa2-acd101693cf2)
 1. [Lecture19](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture19.html) | [video A](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=23e20efa-a0d0-4925-a6f3-acd101693d21) | [video B](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f2cdc250-7153-49a1-8520-acd101693d5c)
-1. [Lecture20](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture20.html) | [video]
-1. [Lecture21](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture21.html) | [video A] | [video B]
+1. [Lecture20](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture20.html) | [video](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=df407d84-0ede-4cf8-9708-acd5000cfba7)
+1. [Lecture21](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture21.html) | [video A](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=7be81044-d9cf-44f4-949d-acd5000cfbdc) | [video B](https://uw.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=23e8d1cf-906a-4080-b440-acd5000e5215)
 1. [Lecture22](https://faculty.washington.edu/trogdon/amath-352-2021/notebooks/Lecture22.html) | [video]
-
-
-
-
